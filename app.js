@@ -1,19 +1,44 @@
 (function () {
 'use strict';
-angular.module('NameCalculator',[])
-    .controller('NameCalculatorController',function ($scope) {
-        $scope.name="";
-        $scope.totalValue=0;
-        $scope.displayNumeric=function () {
-            var totalNameValue=calculateNumericForString($scope.name);
-            $scope.totalValue=totalNameValue;
-        }
-        function calculateNumericForString(string) {
-            var totalStringValue=0;for(var i=0;i<string.length;i++){
-                totalStringValue+=string.charCodeAt(i);
-            }
-            return totalStringValue;
-        }
-    });
+angular.module('ShoppingListApp',[])
+    .controller('ShoppingListAddController',ShoppingListAddController)
+    .controller('ShoppingListShowController',ShoppingListShowController)
+    .service('ShoppingListService',ShoppingListService);
 
+ShoppingListAddController.$inject=['ShoppingListService'];
+function ShoppingListAddController(ShoppingListService) {
+    var itemAdder=this;
+
+    itemAdder.itemName="";
+    itemAdder.itemQuantity=0;
+
+    itemAdder.addItem=function () {
+        ShoppingListService.addItem(itemAdder.itemName,itemAdder.itemQuantity);
+    }
+}
+
+ShoppingListShowController.$inject=['ShoppingListService'];
+function ShoppingListShowController(ShoppingListService) {
+    var showList=this;
+
+    showList.items=ShoppingListService.getItems();
+}
+
+function ShoppingListService() {
+    var service=this;
+
+    var items=[];
+
+    service.addItem=function (itemName,quantity) {
+        var item={
+            name:itemName,
+            quantity:quantity
+        };
+        items.push(item);
+    };
+
+    service.getItems=function () {
+        return items;
+    };
+}
 })();

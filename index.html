@@ -6,14 +6,23 @@
         <script src="app.js"></script>
         <title>Angular JS App</title>
     </head>
-    <body ng-app="NameCalculator">
-        <h1>Name Calculator</h1>
-        <div ng-controller="NameCalculatorController">
+    <body ng-app="ShoppingListApp">
+        <h1>Custom Service</h1>
+        <div ng-controller="ShoppingListAddController as itemAdder">
             <div>
-                Your Name :
-                <input type="text" ng-model="name" ng-keyup="displayNumeric();">
+                <input type="text" ng-model="itemAdder.itemName" placeholder="Item Name"/>
+                <input type="number" ng-model="itemAdder.itemQuantity" placeholder="Item Quantity"/>
             </div>
-            <div>Total Numeric value of person's name is : {{totalValue}}</div>
+            <div>
+                <button ng-click="itemAdder.addItem();">Add Item</button><br>
+            </div>
+        </div>
+        <div ng-controller="ShoppingListShowController as showList">
+            <ol>
+                <li ng-repeat="item in showList.items">
+                    {{item.quantity}} of {{item.name}}
+                </li>
+            </ol>
         </div>
     </body>
 </html>
